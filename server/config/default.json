@@ -1,0 +1,4 @@
+{
+  "serverPORT": 3005,
+  "dbURL": "mongodb+srv://antonmerkotun:1996178dD@data.2j7wv.mongodb.net/todo?retryWrites=true&w=majority"
+}

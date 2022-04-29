@@ -39,45 +39,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-var mongoose_1 = __importDefault(require("mongoose"));
-var express_1 = __importDefault(require("express"));
-var body_parser_1 = __importDefault(require("body-parser"));
+var mongodb_1 = require("mongodb");
 var config_1 = __importDefault(require("config"));
-var app = (0, express_1["default"])();
-var PORT = config_1["default"].get('serverPORT');
-app.use(body_parser_1["default"].json());
-app.use(express_1["default"].json());
-var createTodo = require("./routes/createTodo");
-var removeTodo = require("./routes/removeTodo");
-var allTodo = require("./routes/allTodo");
-var editTodo = require("./routes/editTodo");
-// const retrieveItem = require("./routes/GET/retrieveItem")
-// const dataStatistics = require("./routes/GET/dataStatistics")
-app.use(createTodo);
-app.use(removeTodo);
-app.use(allTodo);
-app.use(editTodo);
-// app.use(retrieveItem)
-// app.use(dataStatistics)
-var start = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var err_1;
+var Router = require('express');
+var ObjectId = require("mongodb").ObjectId;
+var router = new Router();
+var client = new mongodb_1.MongoClient(config_1["default"].get('dbURL'));
+client.connect();
+var notesCollections = client.db("radency").collection("notes");
+router["delete"]('/notes/:id', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, mongoose_1["default"].connect(config_1["default"].get("dbURL"))];
+                id = req.params.id;
+                return [4 /*yield*/, notesCollections.deleteOne({ _id: ObjectId(id) })];
             case 1:
                 _a.sent();
-                app.listen(PORT, function () {
-                    console.log("Server started on port ".concat(PORT));
-                });
+                res.sendStatus(200);
                 return [3 /*break*/, 3];
             case 2:
-                err_1 = _a.sent();
-                console.error(err_1);
+                error_1 = _a.sent();
+                console.log(error_1);
+                res.send({ message: 'Server errors' });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
-}); };
-start();
+}); });
+module.exports = router;

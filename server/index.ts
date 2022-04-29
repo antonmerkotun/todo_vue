@@ -1,20 +1,26 @@
+import mongoose from "mongoose";
 import express from "express";
 import bodyParser from "body-parser";
-import config from "config";
+import config from "config"
 
-const {MongoClient} = require('mongodb');
 const app = express();
 const PORT = config.get('serverPORT')
-const client = new MongoClient(config.get("dbURL"));
-const addTodo = require("./routes/addTodo")
-
 app.use(bodyParser.json());
 app.use(express.json());
-app.use(addTodo)
+
+const createTodo = require("./routes/createTodo")
+const removeTodo = require("./routes/removeTodo")
+const allTodo = require("./routes/allTodo")
+const editTodo = require("./routes/editTodo")
+
+app.use(createTodo)
+app.use(removeTodo)
+app.use(allTodo)
+app.use(editTodo)
 
 const start = async () => {
     try {
-        await client.connect()
+        await mongoose.connect(config.get("dbURL"));
 
         app.listen(PORT, () => {
             console.log(`Server started on port ${PORT}`);
@@ -25,5 +31,3 @@ const start = async () => {
 }
 
 start();
-
-

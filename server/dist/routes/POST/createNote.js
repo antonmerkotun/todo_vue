@@ -40,44 +40,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 exports.__esModule = true;
 var mongoose_1 = __importDefault(require("mongoose"));
-var express_1 = __importDefault(require("express"));
-var body_parser_1 = __importDefault(require("body-parser"));
-var config_1 = __importDefault(require("config"));
-var app = (0, express_1["default"])();
-var PORT = config_1["default"].get('serverPORT');
-app.use(body_parser_1["default"].json());
-app.use(express_1["default"].json());
-var createTodo = require("./routes/createTodo");
-var removeTodo = require("./routes/removeTodo");
-var allTodo = require("./routes/allTodo");
-var editTodo = require("./routes/editTodo");
-// const retrieveItem = require("./routes/GET/retrieveItem")
-// const dataStatistics = require("./routes/GET/dataStatistics")
-app.use(createTodo);
-app.use(removeTodo);
-app.use(allTodo);
-app.use(editTodo);
-// app.use(retrieveItem)
-// app.use(dataStatistics)
-var start = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var err_1;
+var Router = require('express');
+var Todo = require("../../mongoose/models");
+var router = new Router();
+router.post('/add/todo', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var content, todo, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, mongoose_1["default"].connect(config_1["default"].get("dbURL"))];
+                content = req.body.content;
+                todo = new Todo({
+                    _id: new mongoose_1["default"].Types.ObjectId(),
+                    content: content,
+                    isDone: false
+                });
+                return [4 /*yield*/, todo.save()];
             case 1:
                 _a.sent();
-                app.listen(PORT, function () {
-                    console.log("Server started on port ".concat(PORT));
-                });
-                return [3 /*break*/, 3];
+                return [2 /*return*/, res.json(todo)];
             case 2:
-                err_1 = _a.sent();
-                console.error(err_1);
+                error_1 = _a.sent();
+                console.log(error_1);
+                res.sendStatus(400);
+                res.send({ message: 'Server errors' });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
-}); };
-start();
+}); });
+module.exports = router;

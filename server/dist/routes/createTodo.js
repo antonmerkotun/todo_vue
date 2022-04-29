@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,27 +35,38 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var _this = this;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+exports.__esModule = true;
+var mongoose_1 = __importDefault(require("mongoose"));
 var Router = require('express');
+var Todo = require("../mongoose/models");
 var router = new Router();
-router.post('/add/notes', function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-    var note;
+router.post('/add/todo', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var content, todo, error_1;
     return __generator(this, function (_a) {
-        try {
-            note = {
-                name: 1,
-                creation: 2,
-                content: 3
-            };
-            console.log('done');
-            return [2 /*return*/, res.json(note)];
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                content = req.body.content;
+                todo = new Todo({
+                    _id: new mongoose_1["default"].Types.ObjectId(),
+                    content: content,
+                    isDone: false
+                });
+                return [4 /*yield*/, todo.save()];
+            case 1:
+                _a.sent();
+                return [2 /*return*/, res.json(todo)];
+            case 2:
+                error_1 = _a.sent();
+                console.log(error_1);
+                res.sendStatus(400);
+                res.send({ message: 'Server errors' });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
-        catch (error) {
-            console.log(error);
-            res.sendStatus(400);
-            res.send({ message: 'Server errors' });
-        }
-        return [2 /*return*/];
     });
 }); });
 module.exports = router;

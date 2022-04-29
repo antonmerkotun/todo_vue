@@ -40,44 +40,38 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 exports.__esModule = true;
 var mongoose_1 = __importDefault(require("mongoose"));
-var express_1 = __importDefault(require("express"));
-var body_parser_1 = __importDefault(require("body-parser"));
-var config_1 = __importDefault(require("config"));
-var app = (0, express_1["default"])();
-var PORT = config_1["default"].get('serverPORT');
-app.use(body_parser_1["default"].json());
-app.use(express_1["default"].json());
-var createTodo = require("./routes/createTodo");
-var removeTodo = require("./routes/removeTodo");
-var allTodo = require("./routes/allTodo");
-var editTodo = require("./routes/editTodo");
-// const retrieveItem = require("./routes/GET/retrieveItem")
-// const dataStatistics = require("./routes/GET/dataStatistics")
-app.use(createTodo);
-app.use(removeTodo);
-app.use(allTodo);
-app.use(editTodo);
-// app.use(retrieveItem)
-// app.use(dataStatistics)
-var start = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var err_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+var Router = require('express');
+var Note = require("../../mongoose/models");
+var router = new Router();
+router.post('/notes', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, name, creation, category, content, note, error_1;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, mongoose_1["default"].connect(config_1["default"].get("dbURL"))];
+                _a = req.body, name = _a.name, creation = _a.creation, category = _a.category, content = _a.content;
+                _b.label = 1;
             case 1:
-                _a.sent();
-                app.listen(PORT, function () {
-                    console.log("Server started on port ".concat(PORT));
+                _b.trys.push([1, 3, , 4]);
+                note = new Note({
+                    _id: new mongoose_1["default"].Types.ObjectId(),
+                    name: name,
+                    creation: creation,
+                    category: category,
+                    content: content,
+                    isArchives: false
                 });
-                return [3 /*break*/, 3];
+                return [4 /*yield*/, note.save()];
             case 2:
-                err_1 = _a.sent();
-                console.error(err_1);
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
+                _b.sent();
+                return [2 /*return*/, res.json(note)];
+            case 3:
+                error_1 = _b.sent();
+                console.log(error_1);
+                res.sendStatus(400);
+                res.send({ message: 'Server errors' });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
-}); };
-start();
+}); });
+module.exports = router;

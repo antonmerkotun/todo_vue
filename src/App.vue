@@ -2,17 +2,20 @@
   <h1 class="title">To-do list</h1>
   <AddTodo @add-todo="addTodo" />
   <TodoList
-    v-bind:todos="todos.filter((todo) => !todo.completed)"
+    v-bind:todos="todosData.todos.filter((todo) => !todo.completed)"
     @remove-todo="removeTodo"
     @completed-todo="completedTodo"
   />
-  <hr />
-  <div class="completed-block" v-if="todos.some((todo) => todo.completed)">
+  <div class="hr" />
+  <div
+    class="completed-block"
+    v-if="todosData.todos.some((todo) => todo.completed)"
+  >
     <span>✔</span>
     <span>Completed</span>
   </div>
   <TodoList
-    v-bind:todos="todos.filter((todo) => todo.completed)"
+    v-bind:todos="todosData.todos.filter((todo) => todo.completed)"
     @remove-todo="removeTodo"
     @completed-todo="completedTodo"
   />
@@ -22,32 +25,27 @@
 import { defineComponent } from "vue";
 import TodoList from "@/components/TodoList.vue";
 import AddTodo from "@/components/AddTodo.vue";
-import axios from "axios";
+import { useTodosStore } from "@/store/useTodos";
 
 export default defineComponent({
   name: "App",
-  data() {
-    return {
-      todos: [],
-    };
-  },
   components: { AddTodo, TodoList },
-  mounted() {
-    axios.get("/todos").then(({ data }) => {
-      this.todos = data;
-    });
+  setup() {
+    const todosData = useTodosStore();
+    todosData.getTodo;
+    return {
+      todosData,
+    };
   },
   methods: {
     removeTodo(id: number) {
-      this.todos = this.todos.filter(({ _id }): any => _id !== id);
-      axios.delete(`/todo/${id}`);
+      this.todosData.removeTodo(id);
     },
     addTodo(content: object) {
-      axios.post("/add/todo", content);
+      this.todosData.addTodo(content);
     },
     completedTodo(todo: any) {
-      todo.completed = !todo.completed;
-      axios.patch(`/todo/done/${todo._id}`);
+      this.todosData.completedTodo(todo);
     },
   },
 });
@@ -76,5 +74,11 @@ body {
   display: flex;
   justify-content: space-around;
   align-items: center;
+}
+.hr {
+  background-color: #383a4c;
+  height: 2px;
+  width: 100%;
+  margin-bottom: 20px;
 }
 </style>

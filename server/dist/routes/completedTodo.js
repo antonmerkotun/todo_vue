@@ -47,25 +47,29 @@ var router = new Router();
 var client = new mongodb_1.MongoClient(config_1["default"].get('dbURL'));
 var todosCollections = client.db("data").collection("todos");
 client.connect();
-router["delete"]('/todo/:id', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, error_1;
+router.patch('/todo/done/:id', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, completed, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
+                _a.trys.push([0, 3, , 4]);
                 id = req.params.id;
-                console.log(id);
-                return [4 /*yield*/, todosCollections.deleteOne({ _id: ObjectId(id) })];
+                return [4 /*yield*/, todosCollections.findOne({ _id: ObjectId(id) })];
             case 1:
+                completed = (_a.sent()).completed;
+                return [4 /*yield*/, todosCollections.updateOne({ _id: ObjectId(id) }, {
+                        $set: { completed: !completed }
+                    })];
+            case 2:
                 _a.sent();
                 res.sendStatus(200);
-                return [3 /*break*/, 3];
-            case 2:
+                return [3 /*break*/, 4];
+            case 3:
                 error_1 = _a.sent();
                 console.log(error_1);
                 res.send({ message: 'Server errors' });
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); });

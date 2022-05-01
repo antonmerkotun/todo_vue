@@ -50,11 +50,11 @@ app.use(express_1["default"].json());
 var createTodo = require("./routes/createTodo");
 var removeTodo = require("./routes/removeTodo");
 var allTodo = require("./routes/allTodo");
-var editTodo = require("./routes/editTodo");
+var completedTodo = require("./routes/completedTodo");
 app.use(createTodo);
 app.use(removeTodo);
 app.use(allTodo);
-app.use(editTodo);
+app.use(completedTodo);
 var start = function () { return __awaiter(void 0, void 0, void 0, function () {
     var err_1;
     return __generator(this, function (_a) {

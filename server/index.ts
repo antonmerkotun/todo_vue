@@ -11,12 +11,12 @@ app.use(express.json());
 const createTodo = require("./routes/createTodo")
 const removeTodo = require("./routes/removeTodo")
 const allTodo = require("./routes/allTodo")
-const editTodo = require("./routes/editTodo")
+const completedTodo = require("./routes/completedTodo")
 
 app.use(createTodo)
 app.use(removeTodo)
 app.use(allTodo)
-app.use(editTodo)
+app.use(completedTodo)
 
 const start = async () => {
     try {

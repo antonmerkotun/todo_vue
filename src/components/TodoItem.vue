@@ -9,12 +9,12 @@
         v-bind:checked="todo.completed"
       />
       <label for="checkbox" />
-      <p
+      <div
         class="todo-item_body-content"
         v-bind:class="{ completed: todo.completed }"
       >
         {{ todo.content }}
-      </p>
+      </div>
     </span>
     <button class="todo-item_button" @click="$emit('remove-todo', todo._id)">
       &times;

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import {Schema} from "mongoose"
+import { Schema } from "mongoose";
 
 const todoSchema = new Schema({
     _id: mongoose.Schema.Types.ObjectId,
@@ -8,8 +8,8 @@ const todoSchema = new Schema({
         required: true,
     },
     completed: {
-        type: Boolean
-    }
+        type: Boolean,
+    },
 });
 
 const Todo = mongoose.model('Todo', todoSchema);

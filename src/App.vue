@@ -4,7 +4,9 @@
   <TodoList
     v-bind:todos="todosData.todos.filter((todo) => !todo.completed)"
     @remove-todo="removeTodo"
-    @completed-todo="completedTodo"
+    @completed-todo="editCompleted"
+    @edit-todo="editTodo"
+    @edit-content="editContent"
   />
   <div class="hr" />
   <div
@@ -17,7 +19,9 @@
   <TodoList
     v-bind:todos="todosData.todos.filter((todo) => todo.completed)"
     @remove-todo="removeTodo"
-    @completed-todo="completedTodo"
+    @completed-todo="editCompleted"
+    @edit-todo="editTodo"
+    @edit-content="editContent"
   />
 </template>
 
@@ -44,8 +48,15 @@ export default defineComponent({
     addTodo(content: object) {
       this.todosData.addTodo(content);
     },
-    completedTodo(todo: any) {
-      this.todosData.completedTodo(todo);
+    editCompleted(todo: any) {
+      this.todosData.editCompletedTodo(todo);
+    },
+    editTodo(todo: any) {
+      todo.editing = true;
+    },
+    editContent(content: any, todo: any) {
+      this.todosData.editContentTodo(todo, content);
+      todo.editing = false;
     },
   },
 });

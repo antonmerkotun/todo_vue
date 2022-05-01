@@ -2,16 +2,21 @@ import { MongoClient } from "mongodb";
 import config from "config";
 
 const Router = require('express');
+const { ObjectId } = require("mongodb");
 const router = new Router();
 const client = new MongoClient(config.get('dbURL'));
 const todosCollections = client.db("data").collection("todos");
 
 client.connect();
 
-router.get('/todos', async function (req, res) {
+router.patch('/todo/done/:id', async (req, res) => {
     try {
-        const allTodos:any = await todosCollections.find({}).toArray();
-        res.send(allTodos);
+        const id:number = req.params.id;
+        const {completed} = await todosCollections.findOne({_id: ObjectId(id)});
+        await todosCollections.updateOne({_id: ObjectId(id)}, {
+           $set: {completed: !completed},
+        });
+        res.sendStatus(200);
     } catch (error) {
         console.log(error);
         res.send({message: 'Server errors'});

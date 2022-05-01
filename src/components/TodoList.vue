@@ -5,7 +5,9 @@
       v-bind:todo="todo"
       :key="todo._id"
       @remove-todo="removeTodo"
-      @completed-todo="completedTodo"
+      @completed-todo="editCompleted"
+      @edit-todo="editTodo"
+      @edit-content="editContent"
     />
   </ul>
 </template>
@@ -21,8 +23,14 @@ export default {
     removeTodo(id) {
       this.$emit("remove-todo", id);
     },
-    completedTodo(completed) {
+    editCompleted(completed) {
       this.$emit("completed-todo", completed);
+    },
+    editTodo(todo) {
+      this.$emit("edit-todo", todo);
+    },
+    editContent(content, todo) {
+      this.$emit("edit-content", content, todo);
     },
   },
 };

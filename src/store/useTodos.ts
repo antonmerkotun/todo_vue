@@ -23,9 +23,15 @@ export const useTodosStore = defineStore("todos", {
         this.todos = data;
       });
     },
-    async completedTodo(todo: any) {
+    async editCompletedTodo(todo: any) {
       todo.completed = !todo.completed;
       await axios.patch(`/todo/done/${todo._id}`);
+    },
+    async editContentTodo(todo: any, content: any) {
+      todo.content = content;
+      await axios.patch(`/todo/content/${todo._id}`, {
+        content,
+      });
     },
   },
 });

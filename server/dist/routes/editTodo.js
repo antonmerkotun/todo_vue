@@ -45,10 +45,10 @@ var Router = require('express');
 var ObjectId = require("mongodb").ObjectId;
 var router = new Router();
 var client = new mongodb_1.MongoClient(config_1["default"].get('dbURL'));
-client.connect();
 var todosCollections = client.db("data").collection("todos");
+client.connect();
 router.patch('/todo/done/:id', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, isDone, error_1;
+    var id, completed, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -56,9 +56,9 @@ router.patch('/todo/done/:id', function (req, res) { return __awaiter(void 0, vo
                 id = req.params.id;
                 return [4 /*yield*/, todosCollections.findOne({ _id: ObjectId(id) })];
             case 1:
-                isDone = (_a.sent()).isDone;
+                completed = (_a.sent()).completed;
                 return [4 /*yield*/, todosCollections.updateOne({ _id: ObjectId(id) }, {
-                        $set: { isDone: !isDone }
+                        $set: { completed: !completed }
                     })];
             case 2:
                 _a.sent();

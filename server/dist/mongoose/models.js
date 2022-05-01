@@ -11,7 +11,7 @@ var todoSchema = new mongoose_2.Schema({
         type: String,
         required: true
     },
-    isDone: {
+    completed: {
         type: Boolean
     }
 });

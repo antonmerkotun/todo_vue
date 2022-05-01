@@ -10,7 +10,7 @@ router.post('/add/todo', async (req, res) => {
         const todo = new Todo({
             _id: new mongoose.Types.ObjectId(),
             content,
-            isDone: false
+            completed: false
         })
         await todo.save()
         return res.json(todo)

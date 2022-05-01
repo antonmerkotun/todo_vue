@@ -53,7 +53,7 @@ router.post('/add/todo', function (req, res) { return __awaiter(void 0, void 0, 
                 todo = new Todo({
                     _id: new mongoose_1["default"].Types.ObjectId(),
                     content: content,
-                    isDone: false
+                    completed: false
                 });
                 return [4 /*yield*/, todo.save()];
             case 1:

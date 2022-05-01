@@ -12,9 +12,9 @@ client.connect()
 router.patch('/todo/done/:id', async (req, res) => {
     try {
         const id = req.params.id
-        const {isDone} = await todosCollections.findOne({_id: ObjectId(id)});
+        const {completed} = await todosCollections.findOne({_id: ObjectId(id)});
         await todosCollections.updateOne({_id: ObjectId(id)}, {
-           $set: {isDone: !isDone}
+           $set: {completed: !completed}
         });
         res.sendStatus(200);
     } catch (error) {

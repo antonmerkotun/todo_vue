@@ -2,10 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "dist/server.js",
   "scripts": {
     "build": "tsc",
-    "start": "nodemon dist/index.js"
+    "start": "nodemon dist/server.js"
   },
   "author": "",
   "license": "ISC",

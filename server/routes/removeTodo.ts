@@ -1,10 +1,9 @@
 import { MongoClient } from "mongodb";
-import config from "config";
 
 const Router = require('express');
 const { ObjectId } = require("mongodb");
 const router = new Router();
-const client = new MongoClient(config.get('dbURL'));
+const client = new MongoClient("mongodb+srv://antonmerkotun:1996178dD@data.2j7wv.mongodb.net/data?retryWrites=true&w=majority");
 const todosCollections = client.db("data").collection("todos");
 
 client.connect();

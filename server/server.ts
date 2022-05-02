@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 import express from "express";
 import bodyParser from "body-parser";
-import config from "config";
+import path from "path";
 
 const app = express();
-const PORT = config.get('serverPORT');
+const PORT = process.env.PORT || 3005;
 app.use(bodyParser.json());
 app.use(express.json());
 
@@ -20,9 +20,14 @@ app.use(allTodo);
 app.use(editCompletedTodo);
 app.use(editContentTodo);
 
+app.use(express.static(path.join('client','dist')));
+app.get('/', function (req, res) {
+    res.sendFile(path.join('client', 'dist', 'index.html'))
+})
+
 const start = async () => {
     try {
-        await mongoose.connect(config.get("dbURL"));
+        await mongoose.connect("mongodb+srv://antonmerkotun:1996178dD@data.2j7wv.mongodb.net/data?retryWrites=true&w=majority");
         app.listen(PORT, () => {
             console.log(`Server started on port ${PORT}`);
         });

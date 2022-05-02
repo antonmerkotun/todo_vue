@@ -30,7 +30,6 @@ import { defineComponent } from "vue";
 import TodoList from "@/components/TodoList.vue";
 import AddTodo from "@/components/AddTodo.vue";
 import { useTodosStore } from "@/store/useTodos";
-
 export default defineComponent({
   name: "App",
   components: { AddTodo, TodoList },

@@ -14,7 +14,6 @@
 
 <script>
 import TodoItem from "@/components/TodoItem";
-
 export default {
   name: "TodoList",
   props: ["todos"],

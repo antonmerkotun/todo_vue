@@ -92,6 +92,7 @@ export default {
 }
 .completed {
   text-decoration: line-through;
+  color: #9799ad;
 }
 .span-content {
   font-size: 18px;
